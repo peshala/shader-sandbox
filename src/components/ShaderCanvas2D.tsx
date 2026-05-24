@@ -46,11 +46,22 @@ export default function ShaderCanvas2D({ fragmentShader, vertexShader, customUni
 
     const startTime = performance.now();
     let frameId = 0;
+    const smoothMouse = { x: 0.5, y: 0.5 };
+    let lastTime = performance.now();
 
     const animate = () => {
       frameId = requestAnimationFrame(animate);
-      uniforms.uTime.value = (performance.now() - startTime) * 0.001;
-      (uniforms.uMouse.value as THREE.Vector2).set(mouse.current.x, mouse.current.y);
+      const now = performance.now();
+      const dt = Math.min((now - lastTime) * 0.001, 0.05);
+      lastTime = now;
+
+      // Smooth lerp toward actual mouse — ~8fps-independent smoothing
+      const lerp = 1.0 - Math.pow(0.001, dt);
+      smoothMouse.x += (mouse.current.x - smoothMouse.x) * lerp;
+      smoothMouse.y += (mouse.current.y - smoothMouse.y) * lerp;
+
+      uniforms.uTime.value = (now - startTime) * 0.001;
+      (uniforms.uMouse.value as THREE.Vector2).set(smoothMouse.x, smoothMouse.y);
       renderer.render(scene, camera);
     };
 

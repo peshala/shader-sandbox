@@ -8,6 +8,7 @@ import liquidMetalFrag from "@/shaders/liquid-metal.frag.glsl";
 import flowingRibbonsFrag from "@/shaders/flowing-ribbons.frag.glsl";
 import stripeRibbonsFrag from "@/shaders/stripe-ribbons.frag.glsl";
 import neonWaveLinesFrag from "@/shaders/neon-wave-lines.frag.glsl";
+import glassPanelsFrag from "@/shaders/glass-panels.frag.glsl";
 
 export const PRESET_SHADERS: ShaderData[] = [
   {
@@ -178,6 +179,33 @@ export const PRESET_SHADERS: ShaderData[] = [
       { name: "uColor2", label: "Color 2", type: "color", default: [0.92, 0.2, 0.65] },
       { name: "uColor3", label: "Color 3", type: "color", default: [0.6, 0.15, 0.88] },
       { name: "uColor4", label: "Color 4 (End)", type: "color", default: [0.35, 0.1, 0.55] },
+    ],
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+    isPreset: true,
+  },
+  {
+    id: "preset-glass-panels",
+    name: "Glass Panels",
+    description: "Frosted glass panes with refraction and blur over a cursor-following sphere",
+    mode: "2d",
+    fragmentShader: glassPanelsFrag,
+    vertexShader: fullscreenVert,
+    controls: [
+      { name: "uPaneCount", label: "Pane Count", type: "float", min: 2, max: 20, step: 1, default: 8 },
+      { name: "uPaneAngle", label: "Pane Angle", type: "float", min: -90, max: 90, step: 1, default: -38 },
+      { name: "uPaneWidth", label: "Pane Width", type: "float", min: 0.02, max: 0.4, step: 0.005, default: 0.17 },
+      { name: "uGapWidth", label: "Gap Width", type: "float", min: 0.0, max: 0.1, step: 0.002, default: 0.0 },
+      { name: "uRefraction", label: "Refraction", type: "float", min: 0, max: 5, step: 0.05, default: 3.0 },
+      { name: "uWarp", label: "Warp Intensity", type: "float", min: 0, max: 3, step: 0.05, default: 1.0 },
+      { name: "uBlurStrength", label: "Glass Blur", type: "float", min: 0, max: 5, step: 0.1, default: 5.0 },
+      { name: "uPaneEdge", label: "Edge Sharpness", type: "float", min: 0.1, max: 5, step: 0.1, default: 2.1 },
+      { name: "uSphereRadius", label: "Sphere Size", type: "float", min: 0.5, max: 8, step: 0.1, default: 4.7 },
+      { name: "uSphereBlur", label: "Sphere Softness", type: "float", min: 0.1, max: 5, step: 0.1, default: 5.0 },
+      { name: "uSphereLayerBlur", label: "Sphere Layer Blur", type: "float", min: 0, max: 5, step: 0.1, default: 1.0 },
+      { name: "uRainbow", label: "Rainbow Tint", type: "float", min: 0, max: 3, step: 0.05, default: 0.0 },
+      { name: "uBgColor", label: "Background", type: "color", default: [0.12, 0.12, 0.12] },
+      { name: "uSphereColor", label: "Sphere Color", type: "color", default: [0.9, 0.25, 0.15] },
     ],
     createdAt: Date.now(),
     updatedAt: Date.now(),
