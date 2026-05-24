@@ -38,15 +38,18 @@ export default function StripeGradient({ customUniforms }: Props) {
   const colors: string[] = [];
   for (let i = 0; i < colorCount; i++) {
     const key = `uColor${i + 1}`;
-    const val = customUniforms?.[key]?.value as any;
-    if (val && typeof val === "object" && "x" in val) {
-      colors.push(rgbToHex([val.x, val.y, val.z]));
+    const val = customUniforms?.[key]?.value;
+    if (val && typeof val === "object" && "x" in (val as Record<string, unknown>)) {
+      const v = val as { x: number; y: number; z: number };
+      colors.push(rgbToHex([v.x, v.y, v.z]));
     } else if (val && Array.isArray(val)) {
       colors.push(rgbToHex(val as [number, number, number]));
     } else {
       colors.push(colorDefaults[i] || "#ffffff");
     }
   }
+
+  const colorKey = colors.join(",");
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -81,7 +84,8 @@ export default function StripeGradient({ customUniforms }: Props) {
         gradientRef.current = null;
       }
     };
-  }, [amplitude, speed, seed, fps, colors.join(",")]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [amplitude, speed, seed, fps, colorKey]);
 
   if (error) {
     return (

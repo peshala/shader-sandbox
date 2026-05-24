@@ -176,9 +176,11 @@ class ClipSpace {
     const location = gl.getUniformLocation(program, name);
     const setter: UniformSetter = (value) => {
       if (Array.isArray(value)) {
-        (gl[uniformX] as Function).call(gl, location, ...value);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type, @typescript-eslint/no-explicit-any
+        (gl[uniformX] as any).call(gl, location, ...value);
       } else {
-        (gl[uniformX] as Function).call(gl, location, value);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type, @typescript-eslint/no-explicit-any
+        (gl[uniformX] as any).call(gl, location, value);
       }
     };
     if (initialValue !== undefined) setter(initialValue);

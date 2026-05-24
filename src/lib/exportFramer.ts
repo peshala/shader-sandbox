@@ -6,7 +6,6 @@ export function generateFramerComponent(
 ): string {
   const uniformDecls = shader.controls
     .map((c) => {
-      const val = controlValues[c.name] ?? c.default;
       if (c.type === "float") {
         return `      gl.uniform1f(gl.getUniformLocation(program, "${c.name}"), props.${c.name});`;
       }
